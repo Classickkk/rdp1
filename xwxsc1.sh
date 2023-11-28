@@ -1,5 +1,5 @@
-dpkg -i ./google.deb
+dpkg -i google.deb
 wait
 clear
 echo 'Instalado com Sucesso!'
-sh ./BOT/ligar.sh
+sh /BOT/ligar.sh
