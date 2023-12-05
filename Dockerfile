@@ -1,11 +1,15 @@
-# Use the base image
-FROM fredblgr/ubuntu-novnc:20.04
- 
-# Expose the port on which NoVNC runs (80 inside the container)
-EXPOSE 80
- 
-# Set the environment variable for screen resolution
-ENV RESOLUTION 1600x761
- 
-# Start the command to run NoVNC
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+# Use a base image that supports systemd, for example, Ubuntu
+FROM ubuntu:20.04
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y shellinabox && \
+    apt-get install -y systemd && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo 'root:root' | chpasswd
+# Expose the web-based terminal port
+EXPOSE 4200
+
+# Start shellinabox
+CMD ["/usr/bin/shellinaboxd", "-t", "-s", "/:LOGIN"]
