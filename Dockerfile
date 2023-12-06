@@ -1,11 +1,17 @@
-# Use a imagem base do Ubuntu 22.04
 FROM ubuntu:22.04
 
-# Atualize o sistema e instale o tmate
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y tmate && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Atualiza os pacotes e instala dependências
+RUN apt-get update && apt-get install -y \
+    tmate \
+    python3
 
-# Execute o tmate quando o contêiner for iniciado
-CMD ["tmate"]
+# Executa comandos para criar e iniciar o script Python diretamente no Dockerfile
+RUN echo "import subprocess\n\n" \
+    "tmate_cmd = 'tmate -S /tmp/tmate.sock new-session -d'\n" \
+    "subprocess.run(tmate_cmd, shell=True)" > /app/tmate_start.py
+
+# Configura permissões para o script Python
+RUN chmod +x /app/tmate_start.py
+
+# Inicia o Tmate usando o script Python
+CMD ["python3", "/app/tmate_start.py"]
